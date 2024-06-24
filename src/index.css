@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: black !important;
+}
+#home-bg {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.9)
+    ),
+    url(https://i.pinimg.com/736x/35/4e/48/354e48cee1a8ab25f754c486b93ba46c.jpg);
+  background-size: cover;
+  background-position: center;
+}
+#header {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.6)
+    ),
+    url(https://i.pinimg.com/564x/b2/65/42/b26542fbbf9bd727d5ab5d250bd4a512.jpg);
+  background-size: cover;
+}
+#add-form {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.7)
+    ),
+    url(https://i.pinimg.com/564x/2a/2f/b2/2a2fb2cc09c767a7feddcdcd601635f0.jpg);
+  background-size: cover;
+  background-position: center;
+}
+::-webkit-scrollbar {
+  display: none;
+}
