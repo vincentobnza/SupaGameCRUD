@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import supabase from "../config/supabaseClient";
 import GamesCard from "../components/GamesCard";
 import AddForm from "../components/AddForm";
-import { motion, AnimatePresence } from "framer-motion";
 
 export default function Dashboard() {
   const [fetchError, setFetchError] = useState(null);

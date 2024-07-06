@@ -1,9 +1,10 @@
-import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import supabase from "../config/supabaseClient";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 export default function DeleteModal({ open, setIsOpen, game }) {
   const navigate = useNavigate();
+  const [deleteGame, setDeleteGame] = useState("Delete Game");
   const handleDelete = async () => {
     try {
       const { data, error } = await supabase
@@ -11,10 +12,13 @@ export default function DeleteModal({ open, setIsOpen, game }) {
         .delete()
         .eq("id", game.id);
       if (error) throw error;
-      console.log("Game deleted successfully:", data);
-      setIsOpen(false);
-      navigate("/Dashboard");
-      window.location.reload();
+      setDeleteGame("Deleting...");
+      setTimeout(() => {
+        console.log("Game deleted successfully:", data);
+        setIsOpen(false);
+        navigate("/Dashboard");
+        window.location.reload();
+      }, 3000);
     } catch (error) {
       console.log("Error deleting game:", error.message);
     }
@@ -53,7 +57,7 @@ export default function DeleteModal({ open, setIsOpen, game }) {
                 onClick={handleDelete}
                 className="py-2 px-3 bg-red-900 border border-red-600 rounded-lg hover:border-red-500 hover:bg-red-800 duration-300"
               >
-                Delete game
+                {deleteGame}
               </button>
             </div>
           </motion.div>

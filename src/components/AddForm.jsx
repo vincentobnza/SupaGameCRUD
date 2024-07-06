@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import supabase from "../config/supabaseClient";
 import { useNavigate } from "react-router-dom";
+import { TbLogout2 } from "react-icons/tb";
 
 export default function AddForm({ open, setIsOpen }) {
   const [save, setSave] = useState("Save Game");
@@ -14,6 +14,7 @@ export default function AddForm({ open, setIsOpen }) {
 
   const [error, setError] = useState(false);
   const [notif, setNotif] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -47,6 +48,7 @@ export default function AddForm({ open, setIsOpen }) {
 
       if (error) throw error;
       setSave("Saving...");
+      setLoading(true);
       console.log("Game added successfully:", data);
 
       setInterval(() => {
@@ -72,7 +74,6 @@ export default function AddForm({ open, setIsOpen }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={() => setIsOpen(false)}
           className="bg-slate-900/20 backdrop-blur p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll"
         >
           <Notifications notif={notif} />
@@ -101,9 +102,18 @@ export default function AddForm({ open, setIsOpen }) {
             exit={{ y: -20, opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-md bg-zinc-900 rounded-lg p-10 border border-zinc-800 flex flex-col justify-center items-center"
+            className="relative w-full max-w-md bg-zinc-900 rounded-lg p-10 border border-zinc-800 flex flex-col justify-center items-center"
             id="add-form"
           >
+            {/* Logout icon */}
+            <div className="absolute p-1 grid place-items-center rounded backdrop-blur-lg bg-zinc-900/30 -right-8 -top-8 border border-zinc-700">
+              <TbLogout2
+                size={20}
+                className="text-zinc-400 cursor-pointer hover:text-zinc-100 duration-300"
+                onClick={() => setIsOpen(false)}
+              />
+            </div>
+
             <h1 className="text-lg font-bold mb-3">Add Game</h1>
             <form
               onSubmit={handleSubmit}
@@ -153,8 +163,9 @@ export default function AddForm({ open, setIsOpen }) {
                 />
               </div>
               <button
+                disabled={loading}
                 onClick={handleSubmit}
-                className="mt-5 w-full py-3 text-sm font-bold rounded-lg backdrop-blur-sm border border-emerald-600 bg-emerald-800 text-white hover:bg-emerald-800 hover:border-emerald-400 transition-all duration-300"
+                className="mt-5 w-full py-3 text-sm font-bold rounded-lg backdrop-blur-sm border border-emerald-600 bg-emerald-800 text-white hover:bg-emerald-800 hover:border-emerald-400 transition-all duration-300 disabled:cursor-not-allowed"
               >
                 {save}
               </button>
